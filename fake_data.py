@@ -3,7 +3,8 @@ from faker import Faker
 import json
 import numpy as np
 import uuid
-from datetime import datetime
+import datetime
+import os
 # %%
 fake = Faker('pt_BR')
 
@@ -42,50 +43,53 @@ products_price = [299.90,
 
 #%%
 
-orders_data = []
-orders = 5000
 
-for i in range(orders):
-    random_product = np.random.randint(0,10)
-
-    data = {
-            "order_id": str(uuid.uuid1()),
-            "order_total": products_price[random_product],
-            "product_info":{
-                            "product_id": products_id[random_product],
-                            "product_description": products[random_product],
-                            },            
-            "customer_info":
-                            {
-                             "customer_id": str(uuid.uuid4()),
-                             "customer_name": fake.name(),
-                             "customer_phone_number": fake.phone_number()
-                             },
-            "payment_info": {
-                             "payment_type": "credit_card",
-                             "card_number": fake.credit_card_number(),
-                             "provider": fake.credit_card_provider(),
-                             "expire": fake.credit_card_expire(),
-                             "security_code": fake.credit_card_security_code(),
-                            },
-            "delivery_address": {
-                                    "zip_code": fake.postcode(formatted=False),
-                                    "country": fake.current_country(),
-                                    "state": fake.estado_nome(),
-                                    "street": fake.street_name(),
-                                    "number": fake.building_number()
+days = 32
+orders = 500
+for day in range(1, days):
+    orders_data = []
+    for i in range(orders):
+        random_product = np.random.randint(0,10)
+        dt_ini = datetime.datetime(2023, 5, (day))
+        dt_end = datetime.datetime(2023, 5, (day)) + datetime.timedelta(days=1)
+        data = {
+                "order_id": str(uuid.uuid1()),
+                "order_total": products_price[random_product],
+                "product_info":{
+                                "product_id": products_id[random_product],
+                                "product_description": products[random_product],
+                                },            
+                "customer_info":
+                                {
+                                 "customer_id": str(uuid.uuid4()),
+                                 "customer_name": fake.name(),
+                                 "customer_phone_number": fake.phone_number()
+                                 },
+                "payment_info": {
+                                 "payment_type": "credit_card",
+                                 "card_number": fake.credit_card_number(),
+                                 "provider": fake.credit_card_provider(),
+                                 "expire": fake.credit_card_expire(),
+                                 "security_code": fake.credit_card_security_code(),
                                 },
-            "order_created_at": str(fake.date_time_between_dates(datetime(2023, 6, 1), datetime(2023, 6, 25)))
-            }
-    
-    orders_data.append(data)
+                "delivery_address": {
+                                        "zip_code": fake.postcode(formatted=False),
+                                        "country": fake.current_country(),
+                                        "state": fake.estado_nome(),
+                                        "street": fake.street_name(),
+                                        "number": fake.building_number()
+                                    },
+                "order_created_at": str(fake.date_time_between_dates(dt_ini, dt_end))
+                }
 
-print(orders_data)
+        orders_data.append(data)
 
-# Serializing json
-json_object = json.dumps(orders_data, ensure_ascii=False)
- 
-# Writing to sample.json
-with open("sample_data.json", "w", encoding='utf8') as outfile:
-    outfile.write(json_object)
+    # Serializing json
+    json_object = json.dumps(orders_data, ensure_ascii=False)
+    file_name = (f"2023-05-0{day}" if day<10 else f"2023-05-{day}")
+    file_path = f"data/{file_name}/{file_name}.json"
+    # Writing to sample.json
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    with open(f"data/{file_name}/{file_name}.json", "w", encoding='utf8') as outfile:
+        outfile.write(json_object)
 # %%

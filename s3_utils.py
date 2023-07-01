@@ -21,6 +21,7 @@ def create_bucket(bucket_name, region=None):
         if region is None:
             s3_client = boto3.client('s3')
             s3_client.create_bucket(Bucket=bucket_name)
+            print(f"Bucket {bucket_name} created.")
         else:
             s3_client = boto3.client('s3', region_name=region)
             location = {'LocationConstraint': region}
@@ -30,6 +31,7 @@ def create_bucket(bucket_name, region=None):
         logging.error(e)
         return False
     return True
+
 #%%
 def list_bucket():
     """List all S3 buckets    
@@ -40,18 +42,17 @@ def list_bucket():
 
     # List bucket
     try:
+        buckets =[]
         s3 = boto3.client('s3')
         response = s3.list_buckets()
+        for bucket in response['Buckets']:
+            buckets += {bucket["Name"]}
+        return buckets
     except ClientError as e:
         logging.error(e)
         return False
-    return True
-
-# Output the bucket names
-    print('Existing buckets:')
-    for bucket in response['Buckets']:
-        print(f'  {bucket["Name"]}')
-    return
+    
+    
 #%%
 def upload_file(file_name, bucket, object_name=None):
     """Upload a file to an S3 bucket
@@ -70,8 +71,8 @@ def upload_file(file_name, bucket, object_name=None):
     s3_client = boto3.client('s3')
     try:
         response = s3_client.upload_file(file_name, bucket, object_name)
+        print("File uploaded.")
     except ClientError as e:
         logging.error(e)
         return False
     return True
-
