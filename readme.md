@@ -83,13 +83,13 @@ aws cloudformation create-stack --stack-name cf-create-crawler-awscli --template
 
 ![](img/crawler_run.jpg)
 
-## 6. Using Athen run your querys to analyse data:
+## 4. Using Athen run your querys to analyse data:
 
-6.1 Simple partition select:
+4.1 Simple partition select:
     ![](img/query_1_athena.jpg)
 
-6.2 Counting distinct citys in each day:
+4.2 Counting distinct citys in each day:
     ![](img/query_2_athena.jpg)
 
-6.3 Counting how many each product sold in a specific partition:
+4.3 Counting how many each product sold in a specific partition:
     ![](img/query_3_athena.jpg)
