@@ -65,31 +65,31 @@ s3://how-desafio-01/order-data/2023-05-09/2023-05-09-198.json
 s3://how-desafio-01/order-data/2023-05-09/2023-05-09-199.json
 ```
 
-## 5. Running the project
+## 3. Running the project
 
-1. Configure the AWS CLI, you can use this [link](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html);
+3.1. Configure the AWS CLI, you can use this [link](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html);
 
-2. Using python run the file `fake_data.py` to create the fake data;
+3.2. Using python run the file `fake_data.py` to create the fake data;
 
-3. Using python run the file `upload_s3.py` to create the S3 bucket and upload the files to it;
+3.3. Using python run the file `upload_s3.py` to create the S3 bucket and upload the files to it;
 
-4. Using the AWS CLI with the command bellow run the `crawler.yaml` file to create the crawler stack using Cloudformation:
+3.4. Using the AWS CLI with the command bellow run the `crawler.yaml` file to create the crawler stack using Cloudformation:
 
 ```
 aws cloudformation create-stack --stack-name cf-create-crawler-awscli --template-body file://crawler.yaml --capabilities CAPABILITY_NAMED_IAM
  ```
 
-5. In the AWS Console run the crawler:
+3.5. In the AWS Console run the crawler:
 
 ![](img/crawler_run.jpg)
 
-6. Using Athen run your querys to analyse data:
+## 6. Using Athen run your querys to analyse data:
 
-    6.1 Simple partition select:
+6.1 Simple partition select:
     ![](img/query_1_athena.jpg)
 
-    6.2 Counting distinct citys in each day:
+6.2 Counting distinct citys in each day:
     ![](img/query_2_athena.jpg)
 
-    6.3 Counting how many each product sold in a specific partition:
+6.3 Counting how many each product sold in a specific partition:
     ![](img/query_3_athena.jpg)
