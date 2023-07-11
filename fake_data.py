@@ -83,25 +83,14 @@ for day in range(1, days):
                 "order_created_at": str(fake.date_time_between_dates(dt_ini, dt_end))
                 }
 
-        #orders_data.append(data)
         # Serializing json
         json_object = json.dumps(data, ensure_ascii=False)
         day_formatted = f"0{day}" if day<10 else day
         file_formatted = f"0{i}" if i<10 else i
         file_folder = (f"2023-05-{day_formatted}")
         file_name = (f"2023-05-{day_formatted}-{file_formatted}")
-        file_path = f"data/{file_folder}/{file_name}.json"
+        file_path = f"order-data/{file_folder}/{file_name}.json"
         # Writing to sample.json
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(f"data/{file_folder}/{file_name}.json", "w", encoding='utf8') as outfile:
+        with open(f"order-data/{file_folder}/{file_name}.json", "w", encoding='utf8') as outfile:
             outfile.write(json_object)
-
-    ## Serializing json
-    #json_object = json.dumps(orders_data, ensure_ascii=True)
-    #file_name = (f"2023-05-0{day}" if day<10 else f"2023-05-{day}")
-    #file_path = f"data/{file_name}/{file_name}.json"
-    ## Writing to sample.json
-    #os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    #with open(f"data/{file_name}/{file_name}.json", "w", encoding='utf8') as outfile:
-    #    outfile.write(json_object)
-# %%

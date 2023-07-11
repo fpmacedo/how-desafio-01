@@ -24,6 +24,7 @@ for day in range(1, days):
         file_folder = (f"2023-05-{day_formatted}")
         file_name = (f"2023-05-{day_formatted}-{file_formatted}")
         file_path = f"data/{file_folder}/{file_name}.json"
-        s3_utils.upload_file(file_path, bucket_name, file_path)
+        object_name = f"order-data/{file_folder}/{file_name}.json"
+        s3_utils.upload_file(file_path, bucket_name, object_name)
 
 # %%
