@@ -73,7 +73,7 @@ s3://how-desafio-01/order-data/2023-05-09/2023-05-09-199.json
 
 3. Using python run the file `upload_s3.py` to create the S3 bucket and upload the files to it;
 
-4. Using the AWS CLI with the command bellow run the `crawler.yaml` file to create the crawler stack:
+4. Using the AWS CLI with the command bellow run the `crawler.yaml` file to create the crawler stack using Cloudformation:
 
 ```
 aws cloudformation create-stack --stack-name cf-create-crawler-awscli --template-body file://crawler.yaml --capabilities CAPABILITY_NAMED_IAM
