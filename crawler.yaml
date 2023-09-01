@@ -3,15 +3,12 @@ AWSTemplateFormatVersion: 2010-09-09
 # These parameters are the names the resources created in the Data Catalog
 Parameters:                                                                                                       
 # The name of the crawler to be created
-  RawCrawlerName:  
+  CrawlerName:  
     Type: String
-    Default: order-data-raw
-  TrustesCrawlerName:  
-    Type: String
-    Default: order-data-trusted
+    Default: order-data-crawler
   DatabaseName:
     Type: String
-    Default: order-database
+    Default: order-data-database
 #
 #
 # Resources section defines metadata for the Data Catalog
@@ -56,10 +53,10 @@ Resources:
         JsonPath: $[*]
         Name: json_classifier
  #Create a crawler to crawl the orders data on a public S3 bucket
-  RawCrawler:
+  Crawler:
     Type: AWS::Glue::Crawler
     Properties:
-      Name: !Ref RawCrawlerName
+      Name: !Ref CrawlerName
       Role: !GetAtt IAMRole.Arn
       Description: AWS Glue crawler to crawl orders data
       Classifiers:
@@ -69,24 +66,7 @@ Resources:
       Targets:
         S3Targets:
           # S3 bucket with the orders data
-          - Path: "s3://how-desafio/raw/"
+          - Path: "s3://how-desafio-01/order-data/"
       SchemaChangePolicy:
         UpdateBehavior: "UPDATE_IN_DATABASE"
-        DeleteBehavior: "LOG"
-  TrustedCrawler:
-    Type: AWS::Glue::Crawler
-    Properties:
-      Name: !Ref TrustesCrawlerName
-      Role: !GetAtt IAMRole.Arn
-      Description: AWS Glue crawler to crawl orders data
-      Classifiers:
-        - json_classifier
-      #Schedule: none, use default run-on-demand
-      DatabaseName: !Ref DatabaseName
-      Targets:
-        S3Targets:
-          # S3 bucket with the orders data
-          - Path: "s3://how-desafio/trusted/orders"
-      SchemaChangePolicy:
-        UpdateBehavior: "LOG"
         DeleteBehavior: "LOG"

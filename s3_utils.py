@@ -5,7 +5,7 @@ from botocore.exceptions import ClientError
 import os
 
 # %%
-def create_bucket(bucket_name, region='us-east-2'):
+def create_bucket(bucket_name, region=None):
     """Create an S3 bucket in a specified region
 
     If a region is not specified, the bucket is created in the S3 default
